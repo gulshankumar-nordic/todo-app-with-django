@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Todo App with Django</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'todoapp/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'todoapp/css/style.css' %}">
+  <script src="{% static 'todoapp/js/bootstrap.min.js' %}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+</head>
+<body>
+
+
+  
+<div class="container">
+ <div class="row">
+    <div class="col-sm-12">
+    <div id="myDIV" class="header">
+      <h2>ToDo List</h2>
+      <form rold="form" action="{% url 'add' %}", method="POST">
+      {% csrf_token %} 
+        <div class="form-group">
+          <div class="input-group">
+            {{ form.text }}
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-primary">Add</button>
+            </span>
+          </div>
+        </div>
+      </form>
+
+      <div style="padding-top:75px">
+      <button type="button" class="btn btn-danger">
+        <i class="fa fa-trash"></i>
+          Delete All
+      </button>
+      <button type="button" class="btn btn-danger">
+        <i class="fa fa-trash"></i>
+          Delete Completed
+        </button>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      
+
+  <ul >
+    {% for todoItem in todoItems %}
+    {% if todoItem.completed %}
+      <li class="checked">{{ todoItem.text}}</li>
+      {% else %}
+       <a href="{% url 'completed' todoItem.id %}"><li>{{ todoItem.text}}</li></a>
+       {% endif %} 
+    {% endfor %}
+  </ul>
+    </div>
+   
+  </div>
+</div>
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <p>Footer</p>
+</div>
+</body>
+</html>
