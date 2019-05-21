@@ -25,6 +25,19 @@ def completedItem(request, todoId):
     todo = Todo.objects.get(pk=todoId)
     todo.completed = True
     todo.save()
-    print(todo.completed)
+    #print(todo.completed)
+    return redirect('index')
 
+def uncheckCompleted(request, todoId):
+    todo = Todo.objects.get(pk=todoId)
+    todo.completed = False
+    todo.save()
+    return redirect('index')
+
+def deleteCompleted(request):
+    Todo.objects.filter(completed__exact=True).delete()
+    return redirect('index')
+
+def deleteAll(request):
+    Todo.objects.all().delete()
     return redirect('index')
