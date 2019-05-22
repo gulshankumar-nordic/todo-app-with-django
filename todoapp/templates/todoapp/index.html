@@ -9,68 +9,62 @@
   <link rel="stylesheet" href="{% static 'todoapp/css/style.css' %}">
   <script src="{% static 'todoapp/js/bootstrap.min.js' %}"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  
 </head>
 <body>
-
-
-  
 <div class="container">
- <div class="row">
-    <div class="col-sm-12">
-    <div id="myDIV" class="header">
-      <h2>ToDo List</h2>
-      <form rold="form" action="{% url 'add' %}", method="POST">
-      {% csrf_token %} 
-        <div class="form-group">
-          <div class="input-group">
-            {{ form.text }}
-            <span class="input-group-btn">
-              <button type="submit" class="btn btn-primary">Add</button>
-            </span>
+  <div class="row">
+      <div class="col-sm-12">
+        <div id="myDIV" class="header">
+          <h2>ToDo List</h2>
+          <form rold="form" action="{% url 'add' %}", method="POST">
+            {% csrf_token %} 
+            <div class="form-group">
+              <div class="input-group">
+                {{ form.text }}
+                <span class="input-group-btn">
+                  <button type="submit" class="btn btn-primary">Add</button>
+                </span>
+              </div>
+            </div>
+          </form>
+          <div style="padding-top:75px">
+            <a href="{% url 'deleteall' %}">
+              <button type="button" class="btn btn-danger">
+                <i class="fa fa-trash"></i>
+                Delete All
+              </button>
+            </a>
+            <a href="{% url 'deletecompleted' %}">
+              <button type="button" class="btn btn-danger">
+                <i class="fa fa-trash"></i>
+                Delete Completed
+              </button>
+            </a>
           </div>
         </div>
-      </form>
-      <a href="{% url 'deleteall' %}">
-      <div style="padding-top:75px">
-      <button type="button" class="btn btn-danger">
-        <i class="fa fa-trash"></i>
-          Delete All
-      </button>
-      </a>
-      <a href="{% url 'deletecompleted' %}">
-      <button type="button" class="btn btn-danger">
-        <i class="fa fa-trash"></i>
-          Delete Completed
-        </button>
-      </a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <ul class="list-group" style="margin-top:20px">
+          {% for todoItem in todoItems %}
+          {% if todoItem.completed %}
+          <a href="{% url 'uncheckcompleted' todoItem.id %}">
+            <li class="checked list-group-item">{{ todoItem.text}}</li>
+          <a>
+          {% else %}
+          <a href="{% url 'completed' todoItem.id %}">
+            <li class="list-group-item">{{ todoItem.text}}</li>
+          </a>
+          {% endif %} 
+          {% endfor %}
+        </ul>
       </div>
     </div>
   </div>
+  <div class="footer">
+    <p>Basic Todo App with Django</p>
   </div>
-  <div class="row">
-    <div class="col-sm-12">
-      
-
-  <ul >
-    {% for todoItem in todoItems %}
-    {% if todoItem.completed %}
-    <a href="{% url 'uncheckcompleted' todoItem.id %}">
-      <li class="checked">{{ todoItem.text}}</li>
-    <a>
-      {% else %}
-       <a href="{% url 'completed' todoItem.id %}">
-        <li>{{ todoItem.text}}</li>
-       </a>
-       {% endif %} 
-    {% endfor %}
-  </ul>
-    </div>
-   
-  </div>
-</div>
-<div class="jumbotron text-center" style="margin-bottom:0">
-  <p>Footer</p>
 </div>
 </body>
 </html>
